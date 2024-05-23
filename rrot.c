@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 05:42:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/21 03:13:04 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/21 05:47:41 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	rrotate(t_stack **start)
 bool	rra(t_ctx *c)
 {
 	(void) c->b;
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRA), false))
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRA), NULL, false))
 		return (false);
 	ft_printf("rra\n");
 	rrotate(c->a);
@@ -39,7 +39,7 @@ bool	rra(t_ctx *c)
 bool	rrb(t_ctx *c)
 {
 	(void) c->a;
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRB), false))
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRB), NULL, false))
 		return (false);
 	ft_printf("rrb\n");
 	rrotate(c->b);
@@ -48,7 +48,7 @@ bool	rrb(t_ctx *c)
 
 bool	rrr(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRR), false))
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRR), NULL, false))
 		return (false);
 	ft_printf("rrr\n");
 	rrotate(c->a);

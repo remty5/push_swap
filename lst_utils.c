@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 03:11:05 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/19 05:11:06 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/22 11:17:57 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ t_lst	*lst_create(enum e_type type, ...)
 		return (NULL);
 	va_start(args, type);
 	if (type == STACK)
-		*new = (t_lst){.s.value = va_arg(args, t_val)};
+		*new = (t_lst){.value = va_arg(args, t_val)};
 	else if (type == OPLIST)
 		*new = (t_lst){.op = va_arg(args, t_op)};
 	va_end(args);
 	return (new);
 }
 
-bool	lst_add(t_lst **start, t_lst *new, bool check_dupes)
+bool	lst_add(t_lst **start, t_lst *new, int *len, bool check_dupes)
 {
 	t_lst	**s;
 
@@ -38,11 +38,13 @@ bool	lst_add(t_lst **start, t_lst *new, bool check_dupes)
 	s = start;
 	while (*s)
 	{
-		if (check_dupes && (*s)->s.value == new->s.value)
+		if (check_dupes && (*s)->value == new->value)
 			return (false);
 		s = &(*s)->next;
 	}
 	*s = new;
+	if (len)
+		++*len;
 	return (true);
 }
 
@@ -56,6 +58,21 @@ int	lst_size(t_lst *l)
 		i++;
 		l = l->next;
 	}
+	return (i);
+}
+
+int	lst_indexof(t_lst *l, t_lst *q)
+{
+	int	i;
+
+	i = 0;
+	while (l && q != l)
+	{
+		l = l->next;
+		i++;
+	}
+	if (q != l)
+		return (-1);
 	return (i);
 }
 

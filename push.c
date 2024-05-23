@@ -6,38 +6,47 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 04:09:34 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/21 03:13:01 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:58:54 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	push(t_stack **from, t_stack **to)
+static bool	push(t_stack **from, t_stack **to)
 {
 	t_stack	*node;
 
 	if (!*from)
-		return ;
+		return (false);
 	node = *from;
 	*from = (*from)->next;
 	node->next = *to;
 	*to = node;
+	return (true);
 }
 
 bool	pa(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, PA), false))
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, PA), NULL, false))
 		return (false);
 	ft_printf("pa\n");
-	push(c->b, c->a);
+	if (push(c->b, c->a))
+	{
+		c->b_len--;
+		c->a_len++;
+	}
 	return (true);
 }
 
 bool	pb(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, PB), false))
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, PB), NULL, false))
 		return (false);
 	ft_printf("pb\n");
-	push(c->a, c->b);
+	if (push(c->a, c->b))
+	{
+		c->a_len--;
+		c->b_len++;
+	}
 	return (true);
 }

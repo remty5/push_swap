@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:19:32 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/21 03:07:24 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/23 02:19:39 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,9 @@
 
 # include "libft.h"
 
-typedef int				t_val;
+typedef int		t_val;
 
-typedef struct s_s
-{
-	t_val			value;
-	unsigned int	cost;
-}	t_s;
-
+// Order important for apply_ops()
 typedef enum e_op
 {
 	NOP = 0,
@@ -47,14 +42,14 @@ typedef struct s_lst
 {
 	union
 	{
-		t_s		s;
+		t_val	value;
 		t_op	op;
 	};
 	struct s_lst	*next;
 }	t_lst;
 
-typedef struct s_lst	t_stack;
-typedef struct s_lst	t_oplist;
+typedef t_lst	t_stack;
+typedef t_lst	t_oplist;
 
 enum e_type
 {
@@ -67,16 +62,27 @@ typedef struct s_ctx
 	t_oplist	**l;
 	t_stack		**a;
 	t_stack		**b;
+	int			a_len;
+	int			b_len;
 	bool		undo;
 }	t_ctx;
 
 // lst_utils.c
 t_lst	*lst_create(enum e_type type, ...);
-bool	lst_add(t_lst **start, t_lst *new, bool check_dupes);
+bool	lst_add(t_lst **start, t_lst *new, int *len, bool check_dupes);
 int		lst_size(t_lst *l);
+int		lst_indexof(t_lst *l, t_lst *q);
 void	free_lst(t_lst **s);
 
+/*
+ * Operations
+ */
+
+typedef bool	(*t_op_f)(t_ctx *c);
+
 // oplist.c
+t_op_f	get_op(t_op op, bool rev);
+bool	apply_ops(t_ctx *c, t_oplist **l, int ops[MAXOP]);
 void	oplist_undo(t_ctx *c, t_oplist **l);
 
 // swap.c
@@ -97,5 +103,11 @@ bool	rr(t_ctx *c);
 bool	rra(t_ctx *c);
 bool	rrb(t_ctx *c);
 bool	rrr(t_ctx *c);
+
+/*
+ * Algorithm
+ */
+
+# define COSTMAXDEPTH 1
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:18:34 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/21 03:34:09 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:45:02 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 static bool	err(t_ctx *c)
 {
 	(void) c;
-	ft_printf("NOP called!\n");
+	ft_printf("[DEBUG] NOP called!\n");
 	return (false);
 }
 
-static bool (*const	g_ops[MAXOP])(t_ctx *c) = {\
+static t_op_f const	g_ops[MAXOP] = {\
 	[NOP] = err, \
 	[SA] = sa, \
 	[SB] = sb, \
@@ -34,7 +34,7 @@ static bool (*const	g_ops[MAXOP])(t_ctx *c) = {\
 	[RRR] = rrr, \
 };
 
-static bool (*const	g_rev_ops[MAXOP])(t_ctx *c) = {\
+static t_op_f const	g_rev_ops[MAXOP] = {\
 	[PA] = pb, \
 	[PB] = pa, \
 	[RA] = rra, \
@@ -45,15 +45,53 @@ static bool (*const	g_rev_ops[MAXOP])(t_ctx *c) = {\
 	[RRR] = rr, \
 };
 
+t_op_f	get_op(t_op op, bool rev)
+{
+	t_op_f	ret;
+
+	ret = NULL;
+	if (rev)
+		ret = g_rev_ops[op];
+	if (ret == NULL)
+		ret = g_ops[op];
+	return (ret);
+}
+
+bool	apply_ops(t_ctx *c, t_oplist **l, int ops[MAXOP])
+{
+	t_oplist	**o_l;
+	t_op_f		op_f;
+	t_op		op;
+
+	o_l = c->l;
+	c->l = l;
+	op = MAXOP;
+	while (--op)
+	{
+		if (ops[op])
+			op_f = get_op(op, false);
+		while (ops[op])
+		{
+			if (!op_f(c))
+				return (false);
+			ops[op]--;
+		}
+	}
+	c->l = o_l;
+	return (true);
+}
+
 void	oplist_undo(t_ctx *c, t_oplist **l)
 {
-	bool (*rev_op)(t_ctx * c);
+	static t_op_f	rev_op;
+
 	if (*l)
 	{
 		oplist_undo(c, &(*l)->next);
-		rev_op = g_rev_ops[(*l)->op];
-		if (rev_op == NULL)
-			rev_op = g_ops[(*l)->op];
-		rev_op(&(t_ctx){NULL, c->a, c->b, true});
+		rev_op = get_op((*l)->op, true);
+		c->undo = true;
+		rev_op(c);
+		c->undo = false;
+		free_lst(l);
 	}
 }
