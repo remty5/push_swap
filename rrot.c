@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 05:42:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/04/19 05:51:36 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/21 03:13:04 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,32 @@ static void	rrotate(t_stack **start)
 	*end = NULL;
 }
 
-void	rra(t_stack **a)
+bool	rra(t_ctx *c)
 {
+	(void) c->b;
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRA), false))
+		return (false);
 	ft_printf("rra\n");
-	rrotate(a);
+	rrotate(c->a);
+	return (true);
 }
 
-void	rrb(t_stack **b)
+bool	rrb(t_ctx *c)
 {
+	(void) c->a;
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRB), false))
+		return (false);
 	ft_printf("rrb\n");
-	rrotate(b);
+	rrotate(c->b);
+	return (true);
 }
 
-void	rrr(t_stack **a, t_stack **b)
+bool	rrr(t_ctx *c)
 {
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRR), false))
+		return (false);
 	ft_printf("rrr\n");
-	rrotate(a);
-	rrotate(b);
+	rrotate(c->a);
+	rrotate(c->b);
+	return (true);
 }

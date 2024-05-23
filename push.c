@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 04:09:34 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/04/19 04:21:14 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/21 03:13:01 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,20 @@ static void	push(t_stack **from, t_stack **to)
 	*to = node;
 }
 
-void	pa(t_stack **a, t_stack **b)
+bool	pa(t_ctx *c)
 {
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, PA), false))
+		return (false);
 	ft_printf("pa\n");
-	push(b, a);
+	push(c->b, c->a);
+	return (true);
 }
 
-void	pb(t_stack **a, t_stack **b)
+bool	pb(t_ctx *c)
 {
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, PB), false))
+		return (false);
 	ft_printf("pb\n");
-	push(a, b);
+	push(c->a, c->b);
+	return (true);
 }

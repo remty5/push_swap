@@ -6,33 +6,11 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:18:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/04/19 05:53:17 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/21 03:46:22 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-static bool	stack_add(t_stack **start, int val)
-{
-	t_stack	**new;
-	t_stack	*s;
-
-	new = start;
-	s = *start;
-	while (s)
-	{
-		if (s->value == val)
-			return (false);
-		new = &s->next;
-		s = s->next;
-	}
-	*new = malloc(sizeof(t_stack));
-	if (*new == NULL)
-		return (false);
-	(*new)->value = val;
-	(*new)->next = NULL;
-	return (true);
-}
 
 static inline void	print_stacks(t_stack *a, t_stack *b)
 {
@@ -52,59 +30,52 @@ static inline void	print_stacks(t_stack *a, t_stack *b)
 	{
 		if (a_len > b_len)
 		{
-			ft_printf("%11d |\n", a->value);
+			ft_printf("%10u %11d |\n", a->s.cost, a->s.value);
 			a_len--;
 			a = a->next;
 		}
 		else if (a_len < b_len)
 		{
-			ft_printf("%11s | %d\n", "", b->value);
+			ft_printf("%10s %11s | %-11d %u\n", "", "", b->s.value, b->s.cost);
 			b_len--;
 			b = b->next;
 		}
 		else
 		{
-			ft_printf("%11d | %d\n", a->value, b->value);
+			ft_printf("%10u %11d | %-11d %u\n", a->s.cost, a->s.value, b->s.value, b->s.cost);
 			a = a->next;
 			b = b->next;
 		}
 	}
-	ft_printf("%11c | %c\n", '-', '-');
-	ft_printf("%11c | %c\n", 'a', 'b');
+	ft_printf("%10s %11c | %c\n", "", '-', '-');
+	ft_printf("%10s %11c | %c\n", "", 'a', 'b');
 }
 
-static void	free_stack(t_stack **s)
-{
-	t_stack	*to_free;
+int	count_asc(t_stack *s);
 
-	while (*s)
-	{
-		to_free = *s;
-		*s = (*s)->next;
-		free(to_free);
-	}
-}
+// TODO display "Error\n" on error and check that values are integers
 
 int	main(int argc, char *argv[])
 {
-	t_stack	*a;
-	t_stack	*b;
-	int		i;
-
-	a = NULL;
-	b = NULL;
-	i = 0;
+	t_stack (*a) = NULL, *b = NULL;
+	t_oplist (*l) = NULL;
+	int (i) = 0;
+	t_ctx (c) = {.l = &l, .a = &a, .b = &b};
 	while (++i < argc)
-		if (!stack_add(&a, ft_atoi(argv[i])))
-			return (free_stack(&a), EXIT_FAILURE);
-	pb(&a, &b);
-	pb(&a, &b);
+		if (!lst_add(&a, lst_create(STACK, ft_atoi(argv[i])), true))
+			return (free_lst(&a), EXIT_FAILURE);
 	print_stacks(a, b);
-	rr(&a, &b);
+	sa(&c);
+	pb(&c);
 	print_stacks(a, b);
-	rrr(&a, &b);
+	ft_printf("number of sorted elements: %d\n", count_asc(a));
+	ft_printf("number of operations: %d\n", lst_size(l));
+	oplist_undo(&c, c.l);
+	free_lst(c.l);
 	print_stacks(a, b);
-	free_stack(&a);
-	free_stack(&b);
+	ft_printf("number of sorted elements: %d\n", count_asc(a));
+	ft_printf("number of operations: %d\n", lst_size(l));
+	free_lst(c.a);
+	free_lst(c.b);
 	return (EXIT_SUCCESS);
 }

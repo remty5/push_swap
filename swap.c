@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 05:40:45 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/04/19 05:13:01 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/21 03:13:00 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,32 @@ static void	swap(t_stack **start)
 	(*start)->next = node;
 }
 
-void	sa(t_stack **a)
+bool	sa(t_ctx *c)
 {
+	(void) c->b;
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, SA), false))
+		return (false);
 	ft_printf("sa\n");
-	swap(a);
+	swap(c->a);
+	return (true);
 }
 
-void	sb(t_stack **b)
+bool	sb(t_ctx *c)
 {
+	(void) c->a;
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, SB), false))
+		return (false);
 	ft_printf("sb\n");
-	swap(b);
+	swap(c->b);
+	return (true);
 }
 
-void	ss(t_stack **a, t_stack **b)
+bool	ss(t_ctx *c)
 {
+	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, SS), false))
+		return (false);
 	ft_printf("ss\n");
-	swap(a);
-	swap(b);
+	swap(c->a);
+	swap(c->b);
+	return (true);
 }

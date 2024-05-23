@@ -6,16 +6,19 @@
 #    By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 16:11:02 by rvandepu          #+#    #+#              #
-#    Updated: 2024/04/19 05:45:28 by rvandepu         ###   ########.fr        #
+#    Updated: 2024/05/21 03:27:30 by rvandepu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := push_swap
 FILES  := $(NAME).c \
+		  lst_utils.c \
+		  oplist.c \
 		  swap.c \
 		  push.c \
 		  rot.c \
 		  rrot.c \
+		  cost.c \
 
 BONUS_NAME := checker
 BONUS_FILES := $(BONUS_NAME).c \
@@ -48,7 +51,7 @@ fclean: clean
 re: fclean all
 
 test: CFLAGS += -g
-test: re bonus
+test: re #bonus
 
 $(LIBFT_PATH):
 	$(MAKE) -s -C $(LIBFT_DIR) $(LIBFT) -j $$(nproc)
