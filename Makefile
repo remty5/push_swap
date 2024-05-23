@@ -6,7 +6,7 @@
 #    By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 16:11:02 by rvandepu          #+#    #+#              #
-#    Updated: 2024/05/21 03:27:30 by rvandepu         ###   ########.fr        #
+#    Updated: 2024/05/23 06:20:30 by rvandepu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ FILES  := $(NAME).c \
 		  push.c \
 		  rot.c \
 		  rrot.c \
-		  cost.c \
+		  luma.c \
+		  luma_heart.c \
 
 BONUS_NAME := checker
 BONUS_FILES := $(BONUS_NAME).c \

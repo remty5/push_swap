@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:18:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/23 03:52:57 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/23 07:40:35 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,7 @@ void	print_stacks(t_ctx *c, t_stack *a, t_stack *b)
 	ft_printf("%11d | %d\n", c->a_len, c->b_len);
 }
 
-int	count_asc(t_stack *s);
-
 // TODO display "Error\n" on error and check that values are integers
-bool	move_min_cost(t_ctx *c, int *ret, int depth);
-
 int	main(int argc, char *argv[])
 {
 	t_stack (*a) = NULL, *b = NULL;
@@ -59,19 +55,16 @@ int	main(int argc, char *argv[])
 	while (++i < argc)
 		if (!lst_add(&a, lst_create(STACK, ft_atoi(argv[i])), &c.a_len, true))
 			return (free_lst(&a), EXIT_FAILURE);
-	print_stacks(&c, a, b);
-	pb(&c);
-	pb(&c);
-	print_stacks(&c, a, b);
-	ft_printf("sizes:\n\ta: %d,\n\tb: %d\n", c.a_len, c.b_len);
-	ft_printf("number of sorted elements: %d\n", count_asc(a));
-	ft_printf("number of operations: %d\n", lst_size(l));
-	while (c.a_len)
-		move_min_cost(&c, NULL, 0);
-	print_stacks(&c, a, b);
-	ft_printf("sizes:\n\ta: %d,\n\tb: %d\n", c.a_len, c.b_len);
-	ft_printf("number of sorted elements: %d\n", count_asc(a));
-	ft_printf("number of operations: %d\n", lst_size(l));
+	//print_stacks(&c, a, b);
+	if (luma(&c))
+	{
+		//print_stacks(&c, a, b);
+		//ft_printf("sizes:\n\ta: %d,\n\tb: %d\n", lst_size(a), lst_size(b));
+		//ft_printf("number of operations: %d\n", lst_size(l));
+		//undo_oplist(&c, c.l);
+		//print_stacks(&c, a, b);
+	}
+	print_oplist(*c.l);
 	free_lst(c.a);
 	free_lst(c.b);
 	free_lst(c.l);

@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:19:32 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/23 02:19:39 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/23 07:57:47 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 typedef int		t_val;
 
-// Order important for apply_ops()
+// Order important for oplist.c:apply_ops
 typedef enum e_op
 {
 	NOP = 0,
@@ -64,6 +64,7 @@ typedef struct s_ctx
 	t_stack		**b;
 	int			a_len;
 	int			b_len;
+	bool		luma_rev;
 	bool		undo;
 }	t_ctx;
 
@@ -83,7 +84,8 @@ typedef bool	(*t_op_f)(t_ctx *c);
 // oplist.c
 t_op_f	get_op(t_op op, bool rev);
 bool	apply_ops(t_ctx *c, t_oplist **l, int ops[MAXOP]);
-void	oplist_undo(t_ctx *c, t_oplist **l);
+void	print_oplist(t_oplist *l);
+void	undo_oplist(t_ctx *c, t_oplist **l);
 
 // swap.c
 bool	sa(t_ctx *c);
@@ -108,6 +110,12 @@ bool	rrr(t_ctx *c);
  * Algorithm
  */
 
-# define COSTMAXDEPTH 1
+# define COSTMAXDEPTH 0
+
+// luma.c
+bool	luma(t_ctx *c);
+
+// luma_heart.c
+bool	move_min_cost(t_ctx *c, int *ret, int depth);
 
 #endif
