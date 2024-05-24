@@ -6,13 +6,11 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:10:14 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/23 07:40:00 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/24 00:18:56 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-// TODO Longest Increasing Subsequence problem
 
 // TODO move these when splitting
 static int	calc_pos_in(t_stack *elem, t_stack *stack, bool descending);
@@ -24,11 +22,10 @@ bool	move_min_cost(t_ctx *c, int *ret, int depth)
 {
 	t_oplist	*mem;
 	t_stack		*s;
-	int			s_i;
+	int			si;
 	static int	ops[MAXOP];
-	// TODO get rid of cheapest stack pointer, keep indexes in a & b
-	t_stack		*cheapest;
-	int			cheapest_cost;
+	t_stack		*min;
+	int			min_cost;
 	int			cost;
 
 	mem = NULL;
@@ -36,45 +33,37 @@ bool	move_min_cost(t_ctx *c, int *ret, int depth)
 		s = *c->b;
 	else
 		s = *c->a;
-	s_i = 0;
-	cheapest = NULL;
+	si = 0;
+	min = NULL;
 	while (s)
 	{
 		if (c->luma_rev)
-			cost = calc_move_cost(c, calc_pos_in(s, *c->a, false), s_i, ops);
+			cost = calc_move_cost(c, calc_pos_in(s, *c->a, false), si, NULL);
 		else
-			cost = calc_move_cost(c, s_i, calc_pos_in(s, *c->b, true), ops);
-		if (depth <= COSTMAXDEPTH)
+			cost = calc_move_cost(c, si, calc_pos_in(s, *c->b, true), NULL);
+		if (min == NULL || cost < min_cost)
 		{
-			if (!apply_ops(c, &mem, ops))
-				return (false);
-			if (depth < COSTMAXDEPTH && !move_min_cost(c, &cost, depth + 1))
-				return (false);
-			undo_oplist(c, &mem);
-		}
-		if (cheapest == NULL || cost < cheapest_cost)
-		{
-			cheapest = s;
-			cheapest_cost = cost;
+			min = s;
+			min_cost = cost;
 		}
 		s = s->next;
-		s_i++;
+		si++;
 	}
-	if (cheapest == NULL)
+	if (min == NULL)
 		return (true);
 	if (depth > 0)
-		*ret += cheapest_cost;
+		*ret += min_cost;
 	if (depth == 0)
 	{
 		if (c->luma_rev)
-			calc_move_cost(c, calc_pos_in(cheapest, *c->a, false), lst_indexof(*c->b, cheapest), ops);
+			calc_move_cost(c, calc_pos_in(min, *c->a, false),
+				lst_indexof(*c->b, min), ops);
 		else
-			calc_move_cost(c, lst_indexof(*c->a, cheapest), calc_pos_in(cheapest, *c->b, true), ops);
+			calc_move_cost(c, lst_indexof(*c->a, min),
+				calc_pos_in(min, *c->b, true), ops);
 		if (!apply_ops(c, &mem, ops))
 			return (false);
-		//ft_printf("[move_min_cost] mem: %d l: %d\n", lst_size(mem), lst_size(*c->l));
 		lst_add(c->l, mem, NULL, false);
-		//ft_printf("[move_min_cost] new l: %d\n", lst_size(*c->l));
 	}
 	return (true);
 }

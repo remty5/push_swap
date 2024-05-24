@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:19:32 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/23 07:57:47 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/24 06:40:17 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_lst
 		t_val	value;
 		t_op	op;
 	};
+	bool			luma_ex;
 	struct s_lst	*next;
 }	t_lst;
 
@@ -110,7 +111,7 @@ bool	rrr(t_ctx *c);
  * Algorithm
  */
 
-# define COSTMAXDEPTH 0
+typedef int		t_i;
 
 // luma.c
 bool	luma(t_ctx *c);
