@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:10:14 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/24 00:18:56 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/24 07:02:29 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ bool	move_min_cost(t_ctx *c, int *ret, int depth)
 {
 	t_oplist	*mem;
 	t_stack		*s;
-	int			si;
-	static int	ops[MAXOP];
+	int			i;
+	static int	ops[MAXOP] = {0};
 	t_stack		*min;
 	int			min_cost;
 	int			cost;
@@ -33,21 +33,24 @@ bool	move_min_cost(t_ctx *c, int *ret, int depth)
 		s = *c->b;
 	else
 		s = *c->a;
-	si = 0;
+	i = 0;
 	min = NULL;
 	while (s)
 	{
-		if (c->luma_rev)
-			cost = calc_move_cost(c, calc_pos_in(s, *c->a, false), si, NULL);
-		else
-			cost = calc_move_cost(c, si, calc_pos_in(s, *c->b, true), NULL);
-		if (min == NULL || cost < min_cost)
+		if (!s->luma_ex)
 		{
-			min = s;
-			min_cost = cost;
+			if (c->luma_rev)
+				cost = calc_move_cost(c, calc_pos_in(s, *c->a, false), i, NULL);
+			else
+				cost = calc_move_cost(c, i, calc_pos_in(s, *c->b, true), NULL);
+			if (min == NULL || cost < min_cost)
+			{
+				min = s;
+				min_cost = cost;
+			}
 		}
 		s = s->next;
-		si++;
+		i++;
 	}
 	if (min == NULL)
 		return (true);
@@ -62,7 +65,7 @@ bool	move_min_cost(t_ctx *c, int *ret, int depth)
 			calc_move_cost(c, lst_indexof(*c->a, min),
 				calc_pos_in(min, *c->b, true), ops);
 		if (!apply_ops(c, &mem, ops))
-			return (false);
+			return (free_lst(&mem), false);
 		lst_add(c->l, mem, NULL, false);
 	}
 	return (true);
