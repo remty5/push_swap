@@ -6,13 +6,13 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:18:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/30 18:07:45 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 01:02:37 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	print_stacks(t_ctx *c, t_stack *a, t_stack *b)
+/*void	print_stacks(t_ctx *c, t_stack *a, t_stack *b)
 {
 	int		a_len;
 	int		b_len;
@@ -43,7 +43,7 @@ void	print_stacks(t_ctx *c, t_stack *a, t_stack *b)
 	ft_printf("%11c | %c\n", '-', '-');
 	ft_printf("%11c | %c\n", 'a', 'b');
 	ft_printf("%11d | %d\n", c->a_len, c->b_len);
-}
+}*/
 
 static inline bool	parse_val(const char *val, t_val *ret)
 {
@@ -86,7 +86,6 @@ static bool	init_stacks(t_ctx *c, int argc, char **argv)
 			return (false);
 	if (!normalize(c))
 		return (false);
-	//print_stacks(c, *c->a, *c->b); // TODO remove
 	return (true);
 }
 
@@ -102,13 +101,11 @@ static bool	exec_algo(t_ctx *c)
 			return (sa(c));
 		return (true);
 	}
-	if (!luma(c))
+	if (!sort(c))
 		return (false);
 	return (true);
 }
 
-// TODO display "Error\n" on error and check that values are integers
-//      done?
 int	main(int argc, char *argv[])
 {
 	t_stack		*a;
@@ -121,6 +118,7 @@ int	main(int argc, char *argv[])
 	c = (t_ctx){.l = &l, .a = &a, .b = &b};
 	if (!init_stacks(&c, argc, argv)
 		|| !exec_algo(&c)
+		|| !squash_oplist(c.l)
 		|| (print_oplist(*c.l), false))
 		err = true;
 	free_lst(c.a);

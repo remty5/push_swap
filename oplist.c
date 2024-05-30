@@ -6,21 +6,13 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:18:34 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/23 05:55:45 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:42:21 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static bool	err(t_ctx *c)
-{
-	(void) c;
-	ft_printf("[DEBUG] NOP called!\n");
-	return (false);
-}
-
 static const t_op_f			g_ops[MAXOP] = {\
-	[NOP] = err, \
 	[SA] = sa, \
 	[SB] = sb, \
 	[SS] = ss, \
@@ -82,7 +74,6 @@ bool	apply_ops(t_ctx *c, t_oplist **l, int ops[MAXOP])
 }
 
 static const char *const	g_ops_str[MAXOP] = {\
-	[NOP] = "NOP", \
 	[SA] = "sa", \
 	[SB] = "sb", \
 	[SS] = "ss", \

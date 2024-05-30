@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:19:32 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/30 14:23:14 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 00:18:13 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@
 
 # include "libft.h"
 
+/*
+ * Stacks & oplist
+ */
+
 // remember to change push_swap.c:parse_val if changing this type
 typedef int		t_val;
 
-// Order important for oplist.c:apply_ops
+// Order important for oplist.c:apply_ops, squash.c:squash_oplist
 typedef enum e_op
 {
 	NOP = 0,
@@ -66,7 +70,7 @@ typedef struct s_ctx
 	t_stack		**b;
 	int			a_len;
 	int			b_len;
-	bool		luma_rev;
+	bool		turk_rev;
 	bool		undo;
 }	t_ctx;
 
@@ -112,14 +116,15 @@ bool	rrr(t_ctx *c);
  * Algorithm
  */
 
-typedef int		t_i;
-
-// luma.c
+// algo.c
 bool	normalize(t_ctx *c);
 bool	fixup(t_ctx *c);
-bool	luma(t_ctx *c);
+bool	sort(t_ctx *c);
 
-// luma_heart.c
+// turk.c
 bool	move_min_cost(t_ctx *c);
+
+// squash.c
+bool	squash_oplist(t_oplist **start);
 
 #endif

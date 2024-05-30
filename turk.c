@@ -1,53 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   luma_heart.c                                       :+:      :+:    :+:   */
+/*   turk.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:10:14 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/27 06:52:57 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:11:25 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// TODO move these when splitting
 static int	calc_pos(t_stack *elem, t_stack *stack, bool descending);
 static int	calc_move(t_ctx *c, int ia, int ib, int ops[MAXOP]);
 
-bool	move_min_cost(t_ctx *c)
+static void	calc_min(t_ctx *c, t_stack **min)
 {
 	t_stack		*s;
 	int			i;
-	static int	ops[MAXOP] = {0};
-	t_stack		*min;
 	int			min_cost;
 	int			cost;
 
-	if (!c->luma_rev)
+	if (!c->turk_rev)
 		s = *c->a;
 	else
 		s = *c->b;
 	i = 0;
-	min = NULL;
+	*min = NULL;
 	while (s)
 	{
-		if (c->luma_rev)
+		if (c->turk_rev)
 			cost = calc_move(c, calc_pos(s, *c->a, false), i, NULL);
 		else
 			cost = calc_move(c, i, calc_pos(s, *c->b, true), NULL);
-		if (min == NULL || cost < min_cost)
+		if (*min == NULL || cost < min_cost)
 		{
-			min = s;
+			*min = s;
 			min_cost = cost;
 		}
 		s = s->next;
 		i++;
 	}
-	if (min == NULL)
-		exit(1);
-	if (!c->luma_rev)
+}
+
+bool	move_min_cost(t_ctx *c)
+{
+	static int	ops[MAXOP] = {0};
+	t_stack		*min;
+
+	calc_min(c, &min);
+	if (!c->turk_rev)
 		calc_move(c, lst_indexof(*c->a, min), calc_pos(min, *c->b, true), ops);
 	else
 		calc_move(c, calc_pos(min, *c->a, false), lst_indexof(*c->b, min), ops);
@@ -110,5 +113,5 @@ static int	calc_move(t_ctx *c, int ia, int ib, int ops[MAXOP])
 	if (ops && (min != bp && min != bn) && (min == apbn || min == anbp))
 		ops[RB + 3 * (min == apbn)] = \
 				(min != apbn) * ib + (min == apbn) * (c->b_len - ib);
-	return ((ops && ops[PB - c->luma_rev]++), min + 1);
+	return ((ops && ops[PB - c->turk_rev]++), min + 1);
 }
