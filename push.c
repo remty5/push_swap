@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 04:09:34 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/23 07:39:34 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/25 20:10:00 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ bool	pa(t_ctx *c)
 {
 	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, PA), NULL, false))
 		return (false);
-	//ft_printf("pa\n");
 	if (push(c->b, c->a))
 	{
 		c->b_len--;
@@ -42,7 +41,6 @@ bool	pb(t_ctx *c)
 {
 	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, PB), NULL, false))
 		return (false);
-	//ft_printf("pb\n");
 	if (push(c->a, c->b))
 	{
 		c->a_len--;

@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 05:19:13 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/23 07:39:36 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/25 20:10:07 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ bool	ra(t_ctx *c)
 {
 	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RA), NULL, false))
 		return (false);
-	//ft_printf("ra\n");
 	rotate(c->a);
 	return (true);
 }
@@ -39,7 +38,6 @@ bool	rb(t_ctx *c)
 {
 	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RB), NULL, false))
 		return (false);
-	//ft_printf("rb\n");
 	rotate(c->b);
 	return (true);
 }
@@ -48,7 +46,6 @@ bool	rr(t_ctx *c)
 {
 	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RR), NULL, false))
 		return (false);
-	//ft_printf("rr\n");
 	rotate(c->a);
 	rotate(c->b);
 	return (true);

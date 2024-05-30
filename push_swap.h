@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:19:32 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/24 06:40:17 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:23:14 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 # include <stdbool.h>
 # include <stdlib.h>
+# include <limits.h>
 
 # include "libft.h"
 
+// remember to change push_swap.c:parse_val if changing this type
 typedef int		t_val;
 
 // Order important for oplist.c:apply_ops
@@ -45,7 +47,6 @@ typedef struct s_lst
 		t_val	value;
 		t_op	op;
 	};
-	bool			luma_ex;
 	struct s_lst	*next;
 }	t_lst;
 
@@ -114,9 +115,11 @@ bool	rrr(t_ctx *c);
 typedef int		t_i;
 
 // luma.c
+bool	normalize(t_ctx *c);
+bool	fixup(t_ctx *c);
 bool	luma(t_ctx *c);
 
 // luma_heart.c
-bool	move_min_cost(t_ctx *c, int *ret, int depth);
+bool	move_min_cost(t_ctx *c);
 
 #endif

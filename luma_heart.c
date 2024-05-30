@@ -6,21 +6,18 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:10:14 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/24 07:02:29 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/27 06:52:57 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 // TODO move these when splitting
-static int	calc_pos_in(t_stack *elem, t_stack *stack, bool descending);
-static int	calc_move_cost(t_ctx *c, int ia, int ib, int ops[MAXOP]);
-// TODO del this
-void		print_stacks(t_ctx *c, t_stack *a, t_stack *b);
+static int	calc_pos(t_stack *elem, t_stack *stack, bool descending);
+static int	calc_move(t_ctx *c, int ia, int ib, int ops[MAXOP]);
 
-bool	move_min_cost(t_ctx *c, int *ret, int depth)
+bool	move_min_cost(t_ctx *c)
 {
-	t_oplist	*mem;
 	t_stack		*s;
 	int			i;
 	static int	ops[MAXOP] = {0};
@@ -28,50 +25,38 @@ bool	move_min_cost(t_ctx *c, int *ret, int depth)
 	int			min_cost;
 	int			cost;
 
-	mem = NULL;
-	if (c->luma_rev)
-		s = *c->b;
-	else
+	if (!c->luma_rev)
 		s = *c->a;
+	else
+		s = *c->b;
 	i = 0;
 	min = NULL;
 	while (s)
 	{
-		if (!s->luma_ex)
+		if (c->luma_rev)
+			cost = calc_move(c, calc_pos(s, *c->a, false), i, NULL);
+		else
+			cost = calc_move(c, i, calc_pos(s, *c->b, true), NULL);
+		if (min == NULL || cost < min_cost)
 		{
-			if (c->luma_rev)
-				cost = calc_move_cost(c, calc_pos_in(s, *c->a, false), i, NULL);
-			else
-				cost = calc_move_cost(c, i, calc_pos_in(s, *c->b, true), NULL);
-			if (min == NULL || cost < min_cost)
-			{
-				min = s;
-				min_cost = cost;
-			}
+			min = s;
+			min_cost = cost;
 		}
 		s = s->next;
 		i++;
 	}
 	if (min == NULL)
-		return (true);
-	if (depth > 0)
-		*ret += min_cost;
-	if (depth == 0)
-	{
-		if (c->luma_rev)
-			calc_move_cost(c, calc_pos_in(min, *c->a, false),
-				lst_indexof(*c->b, min), ops);
-		else
-			calc_move_cost(c, lst_indexof(*c->a, min),
-				calc_pos_in(min, *c->b, true), ops);
-		if (!apply_ops(c, &mem, ops))
-			return (free_lst(&mem), false);
-		lst_add(c->l, mem, NULL, false);
-	}
+		exit(1);
+	if (!c->luma_rev)
+		calc_move(c, lst_indexof(*c->a, min), calc_pos(min, *c->b, true), ops);
+	else
+		calc_move(c, calc_pos(min, *c->a, false), lst_indexof(*c->b, min), ops);
+	if (!apply_ops(c, c->l, ops))
+		return (false);
 	return (true);
 }
 
-static int	calc_pos_in(t_stack *e, t_stack *stack, bool desc)
+static int	calc_pos(t_stack *e, t_stack *stack, bool desc)
 {
 	t_stack	*limits[2];
 	t_stack	*s;
@@ -99,7 +84,7 @@ static int	calc_pos_in(t_stack *e, t_stack *stack, bool desc)
 	return (lst_indexof(stack, s));
 }
 
-static int	calc_move_cost(t_ctx *c, int ia, int ib, int ops[MAXOP])
+static int	calc_move(t_ctx *c, int ia, int ib, int ops[MAXOP])
 {
 	int	bp;
 	int	bn;
