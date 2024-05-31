@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:32:19 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 17:53:47 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:00:06 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ bool	fixup(t_ctx *c)
 		ops[RA] = i + 1;
 	else
 		ops[RRA] = c->a_len - i - 1;
-	return (apply_ops(c, c->l, ops));
+	return (apply_ops(c, ops));
 }
 
 // Thanks kodokai for this optimization

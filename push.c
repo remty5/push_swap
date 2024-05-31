@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 04:09:34 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/25 20:10:00 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:59:27 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static bool	push(t_stack **from, t_stack **to)
 
 bool	pa(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, PA), NULL, false))
+	if (!lst_add(c->l, lst_create(OPLIST, PA), NULL, false))
 		return (false);
 	if (push(c->b, c->a))
 	{
@@ -39,7 +39,7 @@ bool	pa(t_ctx *c)
 
 bool	pb(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, PB), NULL, false))
+	if (!lst_add(c->l, lst_create(OPLIST, PB), NULL, false))
 		return (false);
 	if (push(c->a, c->b))
 	{

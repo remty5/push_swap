@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 05:42:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/25 20:10:13 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:59:46 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	rrotate(t_stack **start)
 
 bool	rra(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRA), NULL, false))
+	if (!lst_add(c->l, lst_create(OPLIST, RRA), NULL, false))
 		return (false);
 	rrotate(c->a);
 	return (true);
@@ -36,7 +36,7 @@ bool	rra(t_ctx *c)
 
 bool	rrb(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRB), NULL, false))
+	if (!lst_add(c->l, lst_create(OPLIST, RRB), NULL, false))
 		return (false);
 	rrotate(c->b);
 	return (true);
@@ -44,7 +44,7 @@ bool	rrb(t_ctx *c)
 
 bool	rrr(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, RRR), NULL, false))
+	if (!lst_add(c->l, lst_create(OPLIST, RRR), NULL, false))
 		return (false);
 	rrotate(c->a);
 	rrotate(c->b);

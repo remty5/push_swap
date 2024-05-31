@@ -6,44 +6,11 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:18:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 17:51:50 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:14:22 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-/*void	print_stacks(t_ctx *c, t_stack *a, t_stack *b)
-{
-	int		a_len;
-	int		b_len;
-
-	a_len = lst_size(a);
-	b_len = lst_size(b);
-	while (a || b)
-	{
-		if (a_len > b_len)
-		{
-			ft_printf("%11d |\n", a->value);
-			a_len--;
-			a = a->next;
-		}
-		else if (a_len < b_len)
-		{
-			ft_printf("%11s | %d\n", "", b->value);
-			b_len--;
-			b = b->next;
-		}
-		else
-		{
-			ft_printf("%11d | %d\n", a->value, b->value);
-			a = a->next;
-			b = b->next;
-		}
-	}
-	ft_printf("%11c | %c\n", '-', '-');
-	ft_printf("%11c | %c\n", 'a', 'b');
-	ft_printf("%11d | %d\n", c->a_len, c->b_len);
-}*/
 
 static inline bool	parse_val(const char *val, t_val *ret)
 {

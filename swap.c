@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 05:40:45 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/25 20:10:22 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:59:17 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	swap(t_stack **start)
 
 bool	sa(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, SA), NULL, false))
+	if (!lst_add(c->l, lst_create(OPLIST, SA), NULL, false))
 		return (false);
 	swap(c->a);
 	return (true);
@@ -34,7 +34,7 @@ bool	sa(t_ctx *c)
 
 bool	sb(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, SB), NULL, false))
+	if (!lst_add(c->l, lst_create(OPLIST, SB), NULL, false))
 		return (false);
 	swap(c->b);
 	return (true);
@@ -42,7 +42,7 @@ bool	sb(t_ctx *c)
 
 bool	ss(t_ctx *c)
 {
-	if (!c->undo && !lst_add(c->l, lst_create(OPLIST, SS), NULL, false))
+	if (!lst_add(c->l, lst_create(OPLIST, SS), NULL, false))
 		return (false);
 	swap(c->a);
 	swap(c->b);

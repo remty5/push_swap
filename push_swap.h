@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:19:32 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 17:49:22 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:59:02 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ typedef struct s_ctx
 	int			a_len;
 	int			b_len;
 	bool		turk_rev;
-	bool		undo;
 }	t_ctx;
 
 // lst_utils.c
@@ -88,10 +87,8 @@ void	free_lst(t_lst **s);
 typedef bool	(*t_op_f)(t_ctx *c);
 
 // oplist.c
-t_op_f	get_op(t_op op, bool rev);
-bool	apply_ops(t_ctx *c, t_oplist **l, int ops[MAXOP]);
+bool	apply_ops(t_ctx *c, int ops[MAXOP]);
 void	print_oplist(t_oplist *l);
-void	undo_oplist(t_ctx *c, t_oplist **l);
 
 // swap.c
 bool	sa(t_ctx *c);
