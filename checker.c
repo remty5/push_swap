@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:18:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 19:34:14 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:06:37 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static bool	init_oplist(t_ctx *c)
 	char	*input;
 	t_op	op;
 
+	if (!c->a_len)
+		return (true);
 	input = get_next_line(0);
 	while (input)
 	{
@@ -102,10 +104,13 @@ int	main(int argc, char *argv[])
 		|| !init_oplist(&c)
 		|| !exec_oplist(&c))
 		err = true;
-	else if (is_ok(&c))
-		ft_printf("OK\n");
-	else
-		ft_printf("KO\n");
+	else if (c.a_len)
+	{
+		if (is_ok(&c))
+			ft_printf("OK\n");
+		else
+			ft_printf("KO\n");
+	}
 	free_lst(c.a);
 	free_lst(c.b);
 	free_lst(c.l);
