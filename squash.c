@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:22:00 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 01:05:36 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 16:55:56 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ static void	squash_ops(int ops[MAXOP])
 	}
 }
 
-static bool	cut_squash(t_oplist **start, t_oplist **end, int ops[MAXOP])
+static bool	cut_squash(t_oplist **start, t_oplist ***end, int ops[MAXOP])
 {
 	t_oplist	*next;
 	t_op		op;
 
-	next = *end;
-	*end = NULL;
+	next = **end;
+	**end = NULL;
 	free_lst(start);
 	squash_ops(ops);
 	op = RA;
@@ -55,10 +55,10 @@ static bool	cut_squash(t_oplist **start, t_oplist **end, int ops[MAXOP])
 		}
 		op++;
 	}
-	end = start;
-	while (*end)
-		end = &(*end)->next;
-	*end = next;
+	*end = start;
+	while (**end)
+		*end = &(**end)->next;
+	**end = next;
 	return (true);
 }
 
@@ -71,9 +71,9 @@ bool	squash_oplist(t_oplist **start)
 	curr = start;
 	while (true)
 	{
-		while (*curr && (*curr)->op < RA) // FIXME read after free
+		while (*curr && (*curr)->op < RA)
 			curr = &(*curr)->next;
-		if (!*curr) // FIXME read after free
+		if (!*curr)
 			break ;
 		last_start = curr;
 		while (*curr && (*curr)->op >= RA)
@@ -81,7 +81,7 @@ bool	squash_oplist(t_oplist **start)
 			ops[(*curr)->op]++;
 			curr = &(*curr)->next;
 		}
-		if (!cut_squash(last_start, curr, ops))
+		if (!cut_squash(last_start, &curr, ops))
 			return (false);
 	}
 	return (true);

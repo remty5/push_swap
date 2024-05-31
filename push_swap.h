@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:19:32 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 00:18:13 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:49:22 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ bool	rrr(t_ctx *c);
  */
 
 // algo.c
+bool	is_sorted(t_ctx *c);
 bool	normalize(t_ctx *c);
 bool	fixup(t_ctx *c);
 bool	sort(t_ctx *c);

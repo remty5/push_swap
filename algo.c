@@ -6,11 +6,40 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:32:19 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/30 19:55:01 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:53:47 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+bool	is_sorted(t_ctx *c)
+{
+	t_stack	*min;
+	t_stack	*s;
+	t_stack	*next;
+
+	s = *c->a;
+	min = s;
+	while (s)
+	{
+		if (s->value < min->value)
+			min = s;
+		s = s->next;
+	}
+	s = min;
+	while (s)
+	{
+		next = s->next;
+		if (!next)
+			next = *c->a;
+		if (next == min)
+			break ;
+		if (s->value > next->value)
+			return (false);
+		s = next;
+	}
+	return (true);
+}
 
 bool	normalize(t_ctx *c)
 {

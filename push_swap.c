@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:18:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 01:02:37 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:51:50 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ static bool	exec_algo(t_ctx *c)
 			return (sa(c));
 		return (true);
 	}
+	if (is_sorted(c))
+		return (fixup(c));
 	if (!sort(c))
 		return (false);
 	return (true);
