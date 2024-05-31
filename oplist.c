@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:18:34 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 17:58:56 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:49:01 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@ static const t_op_f			g_ops[MAXOP] = {\
 	[RRR] = rrr, \
 };
 
-bool	apply_ops(t_ctx *c, int ops[MAXOP])
+bool	apply_ops(t_ctx *c, t_oplist **l, int ops[MAXOP])
 {
+	t_oplist	**o_l;
 	t_op_f		op_f;
 	t_op		op;
 
+	o_l = c->l;
+	if (l)
+		c->l = l;
 	op = MAXOP;
 	while (--op)
 	{
@@ -43,6 +47,7 @@ bool	apply_ops(t_ctx *c, int ops[MAXOP])
 			ops[op]--;
 		}
 	}
+	c->l = o_l;
 	return (true);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:10:14 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 17:59:59 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 19:00:11 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool	move_min_cost(t_ctx *c)
 		calc_move(c, lst_indexof(*c->a, min), calc_pos(min, *c->b, true), ops);
 	else
 		calc_move(c, calc_pos(min, *c->a, false), lst_indexof(*c->b, min), ops);
-	if (!apply_ops(c, ops))
+	if (!apply_ops(c, NULL, ops))
 		return (false);
 	return (true);
 }

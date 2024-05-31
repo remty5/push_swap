@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:32:19 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 18:00:06 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 19:03:51 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,34 +41,6 @@ bool	is_sorted(t_ctx *c)
 	return (true);
 }
 
-bool	normalize(t_ctx *c)
-{
-	t_stack	*new;
-	t_stack	*curr;
-	t_stack	*s;
-	t_val	v;
-
-	new = NULL;
-	curr = *c->a;
-	while (curr)
-	{
-		v = 0;
-		s = *c->a;
-		while (s)
-		{
-			if (s->value < curr->value)
-				v++;
-			s = s->next;
-		}
-		if (!lst_add(&new, lst_create(STACK, v), NULL, false))
-			return (free_lst(&new), false);
-		curr = curr->next;
-	}
-	free_lst(c->a);
-	*c->a = new;
-	return (true);
-}
-
 bool	fixup(t_ctx *c)
 {
 	int		ops[MAXOP];
@@ -92,7 +64,7 @@ bool	fixup(t_ctx *c)
 		ops[RA] = i + 1;
 	else
 		ops[RRA] = c->a_len - i - 1;
-	return (apply_ops(c, ops));
+	return (apply_ops(c, NULL, ops));
 }
 
 // Thanks kodokai for this optimization

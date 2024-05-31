@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:19:32 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 17:59:02 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 19:03:48 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ typedef struct s_ctx
 	bool		turk_rev;
 }	t_ctx;
 
+// init.c
+bool	parse_val(const char *val, t_val *ret);
+bool	init_stacks(t_ctx *c, int argc, char **argv);
+bool	normalize(t_ctx *c);
+
 // lst_utils.c
 t_lst	*lst_create(enum e_type type, ...);
 bool	lst_add(t_lst **start, t_lst *new, int *len, bool check_dupes);
@@ -87,7 +92,7 @@ void	free_lst(t_lst **s);
 typedef bool	(*t_op_f)(t_ctx *c);
 
 // oplist.c
-bool	apply_ops(t_ctx *c, int ops[MAXOP]);
+bool	apply_ops(t_ctx *c, t_oplist **l, int ops[MAXOP]);
 void	print_oplist(t_oplist *l);
 
 // swap.c
@@ -115,7 +120,6 @@ bool	rrr(t_ctx *c);
 
 // algo.c
 bool	is_sorted(t_ctx *c);
-bool	normalize(t_ctx *c);
 bool	fixup(t_ctx *c);
 bool	sort(t_ctx *c);
 

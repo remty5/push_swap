@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 03:11:05 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/22 11:17:57 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 19:26:46 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	lst_add(t_lst **start, t_lst *new, int *len, bool check_dupes)
 	while (*s)
 	{
 		if (check_dupes && (*s)->value == new->value)
-			return (false);
+			return (free(new), false);
 		s = &(*s)->next;
 	}
 	*s = new;

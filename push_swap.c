@@ -6,55 +6,11 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:18:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 18:14:22 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:54:39 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-static inline bool	parse_val(const char *val, t_val *ret)
-{
-	int		i;
-	char	sign;
-	long	n;
-
-	while (*val == ' ' || ('\t' <= *val && *val <= '\r'))
-		val++;
-	sign = 1;
-	if (*val == '-' || *val == '+')
-		if (*(val++) == '-')
-			sign = -sign;
-	i = 0;
-	n = 0;
-	while ('0' <= val[i] && val[i] <= '9' && i < 10)
-	{
-		n *= 10;
-		n += val[i++] - '0';
-	}
-	n = n * sign;
-	if (i == 0 || n < INT_MIN || INT_MAX < n)
-		return (false);
-	*ret = n;
-	return (val[i] == '\0');
-}
-
-static bool	init_stacks(t_ctx *c, int argc, char **argv)
-{
-	t_val	val;
-	int		i;
-
-	*c->a = NULL;
-	*c->b = NULL;
-	*c->l = NULL;
-	i = 0;
-	while (++i < argc)
-		if (!parse_val(argv[i], &val)
-			|| !lst_add(c->a, lst_create(STACK, val), &c->a_len, true))
-			return (false);
-	if (!normalize(c))
-		return (false);
-	return (true);
-}
 
 static bool	exec_algo(t_ctx *c)
 {
@@ -94,6 +50,6 @@ int	main(int argc, char *argv[])
 	free_lst(c.b);
 	free_lst(c.l);
 	if (err)
-		return (ft_printf("Error\n"), EXIT_FAILURE);
+		return (ft_fprintf(stderr, "Error\n"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
