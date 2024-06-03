@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:18:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 20:06:37 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/06/03 18:54:39 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static bool	init_oplist(t_ctx *c)
 	char	*input;
 	t_op	op;
 
-	if (!c->a_len)
-		return (true);
 	input = get_next_line(0);
 	while (input)
 	{
@@ -42,14 +40,14 @@ static bool	init_oplist(t_ctx *c)
 			if (ft_strcmp(input, g_ops_str[op]) == 0)
 			{
 				if (!lst_add(c->l, lst_create(OPLIST, op), NULL, false))
-					return (free(input), false);
+					return (free(input), free_gnl(), false);
 				else
 					break ;
 			}
 			op++;
 		}
 		if (op == MAXOP)
-			return (free(input), false);
+			return (free(input), free_gnl(), false);
 		input = (free(input), get_next_line(0));
 	}
 	return (true);
@@ -98,19 +96,18 @@ int	main(int argc, char *argv[])
 	t_ctx		c;
 	bool		err;
 
+	if (argc < 2)
+		return (EXIT_SUCCESS);
 	err = false;
 	c = (t_ctx){.l = &l, .a = &a, .b = &b};
 	if (!init_stacks(&c, argc, argv)
 		|| !init_oplist(&c)
 		|| !exec_oplist(&c))
 		err = true;
-	else if (c.a_len)
-	{
-		if (is_ok(&c))
-			ft_printf("OK\n");
-		else
-			ft_printf("KO\n");
-	}
+	else if (is_ok(&c))
+		ft_printf("OK\n");
+	else
+		ft_printf("KO\n");
 	free_lst(c.a);
 	free_lst(c.b);
 	free_lst(c.l);
