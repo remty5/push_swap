@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:41:33 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 19:03:33 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/06/03 20:53:27 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 bool	parse_val(const char *val, t_val *ret)
 {
 	int		i;
+	int		j;
 	char	sign;
 	long	n;
 
@@ -25,14 +26,14 @@ bool	parse_val(const char *val, t_val *ret)
 		if (*(val++) == '-')
 			sign = -sign;
 	i = 0;
+	while (val[i] == '0')
+		i++;
+	j = 0;
 	n = 0;
-	while ('0' <= val[i] && val[i] <= '9' && i < 10)
-	{
-		n *= 10;
-		n += val[i++] - '0';
-	}
+	while ('0' <= val[i] && val[i] <= '9')
+		n = (j++, n * 10 + (val[i++] - '0'));
 	n = n * sign;
-	if (i == 0 || n < INT_MIN || INT_MAX < n)
+	if (i == 0 || j > 10 || n < INT_MIN || INT_MAX < n)
 		return (false);
 	*ret = n;
 	return (val[i] == '\0');
