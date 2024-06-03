@@ -6,7 +6,7 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:18:34 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/05/31 18:49:01 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/06/03 19:05:56 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,25 @@ bool	apply_ops(t_ctx *c, t_oplist **l, int ops[MAXOP])
 	return (true);
 }
 
-static const char *const	g_ops_str[MAXOP] = {\
-	[SA] = "sa", \
-	[SB] = "sb", \
-	[SS] = "ss", \
-	[PA] = "pa", \
-	[PB] = "pb", \
-	[RA] = "ra", \
-	[RB] = "rb", \
-	[RR] = "rr", \
-	[RRA] = "rra", \
-	[RRB] = "rrb", \
-	[RRR] = "rrr", \
+const char *const			g_ops_str[MAXOP] = {\
+	[SA] = "sa\n", \
+	[SB] = "sb\n", \
+	[SS] = "ss\n", \
+	[PA] = "pa\n", \
+	[PB] = "pb\n", \
+	[RA] = "ra\n", \
+	[RB] = "rb\n", \
+	[RR] = "rr\n", \
+	[RRA] = "rra\n", \
+	[RRB] = "rrb\n", \
+	[RRR] = "rrr\n", \
 };
 
 void	print_oplist(t_oplist *l)
 {
 	while (l)
 	{
-		ft_printf("%s\n", g_ops_str[l->op]);
+		ft_printf("%s", g_ops_str[l->op]);
 		l = l->next;
 	}
 }

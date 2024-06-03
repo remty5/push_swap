@@ -6,25 +6,13 @@
 /*   By: rvandepu <rvandepu@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 08:18:11 by rvandepu          #+#    #+#             */
-/*   Updated: 2024/06/03 18:54:39 by rvandepu         ###   ########.fr       */
+/*   Updated: 2024/06/03 19:05:15 by rvandepu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static const char *const	g_ops_str[MAXOP] = {\
-	[SA] = "sa\n", \
-	[SB] = "sb\n", \
-	[SS] = "ss\n", \
-	[PA] = "pa\n", \
-	[PB] = "pb\n", \
-	[RA] = "ra\n", \
-	[RB] = "rb\n", \
-	[RR] = "rr\n", \
-	[RRA] = "rra\n", \
-	[RRB] = "rrb\n", \
-	[RRR] = "rrr\n", \
-};
+extern const char *const	g_ops_str[MAXOP];
 
 static bool	init_oplist(t_ctx *c)
 {
